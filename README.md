@@ -2,5 +2,5 @@
 To use the code:
 - python sha.py (filename) 512
 
-Document
+Documentation:
 - https://docs.google.com/document/d/1OgyqZshhjVf8CMdTjtx-FSBqpm34a3JiQ_DMq2Y8Iu0/edit?usp=sharing
