@@ -25,8 +25,11 @@ def preprocess(plain_text):
     append_bit = (128).to_bytes(1,'big')
     plain_text = plain_text + append_bit
 
-    # Make the bit length of the final 512-bit block of the message be 448 bits long
-    append_bytes = [(0).to_bytes(1,'big') for bit in range((chunk_len-2*word_size)-(len(plain_text)%chunk_len))]
+    # Make the bit length of the final 1024-bit block of the message be 896 bits long
+    append_length =  (chunk_len-2*word_size)-(len(plain_text)%chunk_len)
+    if append_length < 0:
+        append_length = chunk_len - (len(plain_text)%chunk_len) + (chunk_len-2*word_size)
+    append_bytes = [(0).to_bytes(1,'big') for bit in range(append_length)]
     append_bytes = b''.join(append_bytes)
     plain_text = plain_text + append_bytes
 
@@ -122,17 +125,7 @@ elif mode == '256':
     crypto_len = 64
     Ks = sha_values.KS256
     hs = sha_values.HS256
-# elif mode == '1':
-#     mask = 0xffffffff
-#     chunk_len = 64
-#     word_size = 4
-#     crypto_len = 80
 
-#     hs = [0x67452301,
-#         0xEFCDAB89,
-#         0x98BADCFE,
-#         0x10325476,
-#         0xC3D2E1F0]
 else:
     raise SystemError('Invalid input mode.')
 
